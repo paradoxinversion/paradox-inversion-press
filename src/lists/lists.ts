@@ -4,6 +4,7 @@ import Category from "./Category";
 import Tag from "./Tag";
 import StoryCollection from "./StoryCollection";
 import Page from "./Page";
+import Image from "./Image";
 
 export default {
   User,
@@ -12,4 +13,5 @@ export default {
   Tag,
   StoryCollection,
   Page,
+  Image,
 };

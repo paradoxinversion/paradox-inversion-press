@@ -29,6 +29,8 @@ model Post {
   series                           StoryCollection?  @relation("Post_series", fields: [seriesId], references: [id])
   seriesId                         String?           @map("series")
   seriesOrder                      Int?
+  headerImage                      Image?            @relation("Post_headerImage", fields: [headerImageId], references: [id])
+  headerImageId                    String?           @map("headerImage")
   publishedAt                      DateTime?
   author                           User?             @relation("Post_author", fields: [authorId], references: [id])
   authorId                         String?           @map("author")
@@ -43,6 +45,7 @@ model Post {
 
   @@index([categoryId])
   @@index([seriesId])
+  @@index([headerImageId])
   @@index([authorId])
   @@index([pageId])
 }
@@ -82,4 +85,16 @@ model Page {
   status           String? @default("draft")
   showInNav        Boolean @default(false)
   from_Post_page   Post[]  @relation("Post_page")
+}
+
+model Image {
+  id                    String  @id @default(cuid())
+  name                  String  @default("")
+  altText               String  @default("")
+  image_id              String?
+  image_filesize        Int?
+  image_width           Int?
+  image_height          Int?
+  image_extension       String?
+  from_Post_headerImage Post[]  @relation("Post_headerImage")
 }

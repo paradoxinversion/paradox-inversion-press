@@ -47,6 +47,7 @@ const Post = list({
     category: relationship({ ref: "Category" }),
     series: relationship({ ref: "StoryCollection" }),
     seriesOrder: integer(),
+    headerImage: relationship({ ref: "Image" }),
     publishedAt: timestamp(),
     author: relationship({
       ref: "User.posts",
