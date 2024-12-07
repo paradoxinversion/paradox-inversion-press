@@ -1,0 +1,12 @@
+{
+  "name": "paradox-inversion-press",
+  "version": "0.0.1",
+  "description": "Repository for Paradox Inversion",
+  "main": "index.js",
+  "author": "Jedai Saboteur",
+  "license": "MIT",
+  "dependencies": {
+    "@keystone-6/core": "^6.3.1",
+    "typescript": "^5.7.2"
+  }
+}
