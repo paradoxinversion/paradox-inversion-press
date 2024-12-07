@@ -10,6 +10,7 @@ import {
 } from "@keystone-6/core/fields";
 import isAdmin from "../utils/isAdmin";
 import { Session } from "../types";
+import slugify from "../utils/slugify";
 
 function filterPosts({ session }: { session?: Session }) {
   // if the user is an Admin, they can access all the records
@@ -28,6 +29,17 @@ const Post = list({
     },
     filter: {
       query: filterPosts,
+    },
+  },
+  hooks: {
+    resolveInput: ({ resolvedData }) => {
+      const { title } = resolvedData;
+
+      if (title) {
+        return { ...resolvedData, url: slugify(title) };
+      }
+
+      return resolvedData;
     },
   },
   fields: {
@@ -68,6 +80,7 @@ const Post = list({
       ],
     }),
     tags: relationship({ ref: "Tag", many: true }),
+    url: text(),
   },
 });
 

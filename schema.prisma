@@ -37,6 +37,7 @@ model Post {
   status                           String?           @default("draft")
   content                          String            @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   tags                             Tag[]             @relation("Post_tags")
+  url                              String            @default("")
   from_Tag_posts                   Tag[]             @relation("Tag_posts")
   from_StoryCollection_seriesPosts StoryCollection[] @relation("StoryCollection_seriesPosts")
 

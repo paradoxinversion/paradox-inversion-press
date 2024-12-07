@@ -144,6 +144,7 @@ type Post {
   content: Post_content_Document
   tags(where: TagWhereInput! = {}, orderBy: [TagOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TagWhereUniqueInput): [Tag!]
   tagsCount(where: TagWhereInput! = {}): Int
+  url: String
 }
 
 scalar DateTime @specifiedBy(url: "https://datatracker.ietf.org/doc/html/rfc3339#section-5.6")
@@ -170,6 +171,7 @@ input PostWhereInput {
   page: PageWhereInput
   status: StringNullableFilter
   tags: TagManyRelationFilter
+  url: StringFilter
 }
 
 input IntNullableFilter {
@@ -220,6 +222,7 @@ input PostOrderByInput {
   seriesOrder: OrderDirection
   publishedAt: OrderDirection
   status: OrderDirection
+  url: OrderDirection
 }
 
 input PostUpdateInput {
@@ -233,6 +236,7 @@ input PostUpdateInput {
   status: String
   content: JSON
   tags: TagRelateToManyForUpdateInput
+  url: String
 }
 
 input CategoryRelateToOneForUpdateInput {
@@ -282,6 +286,7 @@ input PostCreateInput {
   status: String
   content: JSON
   tags: TagRelateToManyForCreateInput
+  url: String
 }
 
 input CategoryRelateToOneForCreateInput {
