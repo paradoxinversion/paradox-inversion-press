@@ -10,6 +10,7 @@ import {
 } from "@keystone-6/core/fields";
 import isAdmin from "../utils/isAdmin";
 import { Session } from "../types";
+import slugify from "../utils/slugify";
 
 function filterPages({ session }: { session?: Session }) {
   // if the user is an Admin, they can access all the records
@@ -21,7 +22,7 @@ function filterPages({ session }: { session?: Session }) {
 const Page = list({
   access: {
     operation: {
-      query: isAdmin,
+      query: allowAll,
       create: isAdmin,
       update: isAdmin,
       delete: isAdmin,
@@ -30,11 +31,23 @@ const Page = list({
       query: filterPages,
     },
   },
+  hooks: {
+    resolveInput: ({ resolvedData }) => {
+      const { title } = resolvedData;
+
+      if (title) {
+        return { ...resolvedData, url: slugify(title) };
+      }
+
+      return resolvedData;
+    },
+  },
   fields: {
     title: text({ validation: { isRequired: true }, isIndexed: "unique" }),
     pageOrder: integer(),
     pageType: select({
       options: [
+        { label: "Home", value: "home" },
         { label: "Standard", value: "standard" },
         { label: "Series", value: "series" },
       ],
@@ -54,6 +67,7 @@ const Page = list({
         [1, 2, 1],
       ],
     }),
+    barcode: text(),
     postSections: text(),
     status: select({
       options: [
@@ -64,6 +78,8 @@ const Page = list({
       ui: { displayMode: "segmented-control" },
     }),
     showInNav: checkbox({ defaultValue: false }),
+    url: text({ isIndexed: "unique" }),
+    storyCollection: relationship({ ref: "StoryCollection" }),
   },
 });
 

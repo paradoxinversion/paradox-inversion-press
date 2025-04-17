@@ -38,8 +38,9 @@ model Post {
   pageId                           String?           @map("page")
   status                           String?           @default("draft")
   content                          String            @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  brief                            String            @default("")
   tags                             Tag[]             @relation("Post_tags")
-  url                              String            @default("")
+  url                              String            @unique @default("")
   from_Tag_posts                   Tag[]             @relation("Tag_posts")
   from_StoryCollection_seriesPosts StoryCollection[] @relation("StoryCollection_seriesPosts")
 
@@ -60,31 +61,41 @@ model Category {
 model Tag {
   id             String @id @default(cuid())
   name           String @unique @default("")
+  tag            String @unique @default("")
   description    String @unique @default("")
   posts          Post[] @relation("Tag_posts")
   from_Post_tags Post[] @relation("Post_tags")
 }
 
 model StoryCollection {
-  id               String @id @default(cuid())
-  title            String @unique @default("")
-  socialMediaBrief String @default("")
-  synopsis         String @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
-  seriesPosts      Post[] @relation("StoryCollection_seriesPosts")
-  from_Post_series Post[] @relation("Post_series")
+  id                        String  @id @default(cuid())
+  title                     String  @unique @default("")
+  socialMediaBrief          String  @default("")
+  synopsis                  String  @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  seriesPosts               Post[]  @relation("StoryCollection_seriesPosts")
+  url                       String  @unique @default("")
+  status                    String? @default("draft")
+  from_Post_series          Post[]  @relation("Post_series")
+  from_Page_storyCollection Page[]  @relation("Page_storyCollection")
 }
 
 model Page {
-  id               String  @id @default(cuid())
-  title            String  @unique @default("")
-  pageOrder        Int?
-  pageType         String? @default("standard")
-  socialMediaBrief String  @default("")
-  content          String  @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
-  postSections     String  @default("")
-  status           String? @default("draft")
-  showInNav        Boolean @default(false)
-  from_Post_page   Post[]  @relation("Post_page")
+  id                String           @id @default(cuid())
+  title             String           @unique @default("")
+  pageOrder         Int?
+  pageType          String?          @default("standard")
+  socialMediaBrief  String           @default("")
+  content           String           @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  barcode           String           @default("")
+  postSections      String           @default("")
+  status            String?          @default("draft")
+  showInNav         Boolean          @default(false)
+  url               String           @unique @default("")
+  storyCollection   StoryCollection? @relation("Page_storyCollection", fields: [storyCollectionId], references: [id])
+  storyCollectionId String?          @map("storyCollection")
+  from_Post_page    Post[]           @relation("Post_page")
+
+  @@index([storyCollectionId])
 }
 
 model Image {

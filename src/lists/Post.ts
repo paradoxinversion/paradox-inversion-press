@@ -22,7 +22,7 @@ function filterPosts({ session }: { session?: Session }) {
 const Post = list({
   access: {
     operation: {
-      query: isAdmin,
+      query: allowAll,
       create: isAdmin,
       update: isAdmin,
       delete: isAdmin,
@@ -31,6 +31,7 @@ const Post = list({
       query: filterPosts,
     },
   },
+  // access: allowAll,
   hooks: {
     resolveInput: ({ resolvedData }) => {
       const { title } = resolvedData;
@@ -51,13 +52,6 @@ const Post = list({
     publishedAt: timestamp(),
     author: relationship({
       ref: "User.posts",
-      ui: {
-        displayMode: "cards",
-        cardFields: ["displayName", "email"],
-        inlineEdit: { fields: ["displayName", "email"] },
-        linkToItem: true,
-        inlineCreate: { fields: ["displayName", "email"] },
-      },
     }),
     page: relationship({ ref: "Page" }),
     status: select({
@@ -80,8 +74,9 @@ const Post = list({
         [1, 2, 1],
       ],
     }),
+    brief: text(),
     tags: relationship({ ref: "Tag", many: true }),
-    url: text(),
+    url: text({ isIndexed: "unique" }),
   },
 });
 

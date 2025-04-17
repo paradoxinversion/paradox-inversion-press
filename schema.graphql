@@ -143,6 +143,7 @@ type Post {
   page: Page
   status: String
   content: Post_content_Document
+  brief: String
   tags(where: TagWhereInput! = {}, orderBy: [TagOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TagWhereUniqueInput): [Tag!]
   tagsCount(where: TagWhereInput! = {}): Int
   url: String
@@ -156,6 +157,7 @@ type Post_content_Document {
 
 input PostWhereUniqueInput {
   id: ID
+  url: String
 }
 
 input PostWhereInput {
@@ -172,6 +174,7 @@ input PostWhereInput {
   author: UserWhereInput
   page: PageWhereInput
   status: StringNullableFilter
+  brief: StringFilter
   tags: TagManyRelationFilter
   url: StringFilter
 }
@@ -224,6 +227,7 @@ input PostOrderByInput {
   seriesOrder: OrderDirection
   publishedAt: OrderDirection
   status: OrderDirection
+  brief: OrderDirection
   url: OrderDirection
 }
 
@@ -238,6 +242,7 @@ input PostUpdateInput {
   page: PageRelateToOneForUpdateInput
   status: String
   content: JSON
+  brief: String
   tags: TagRelateToManyForUpdateInput
   url: String
 }
@@ -295,6 +300,7 @@ input PostCreateInput {
   page: PageRelateToOneForCreateInput
   status: String
   content: JSON
+  brief: String
   tags: TagRelateToManyForCreateInput
   url: String
 }
@@ -374,6 +380,7 @@ input CategoryCreateInput {
 type Tag {
   id: ID!
   name: String
+  tag: String
   description: String
   posts(where: PostWhereInput! = {}, orderBy: [PostOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PostWhereUniqueInput): [Post!]
   postsCount(where: PostWhereInput! = {}): Int
@@ -382,6 +389,7 @@ type Tag {
 input TagWhereUniqueInput {
   id: ID
   name: String
+  tag: String
   description: String
 }
 
@@ -391,6 +399,7 @@ input TagWhereInput {
   NOT: [TagWhereInput!]
   id: IDFilter
   name: StringFilter
+  tag: StringFilter
   description: StringFilter
   posts: PostManyRelationFilter
 }
@@ -398,11 +407,13 @@ input TagWhereInput {
 input TagOrderByInput {
   id: OrderDirection
   name: OrderDirection
+  tag: OrderDirection
   description: OrderDirection
 }
 
 input TagUpdateInput {
   name: String
+  tag: String
   description: String
   posts: PostRelateToManyForUpdateInput
 }
@@ -414,6 +425,7 @@ input TagUpdateArgs {
 
 input TagCreateInput {
   name: String
+  tag: String
   description: String
   posts: PostRelateToManyForCreateInput
 }
@@ -425,6 +437,8 @@ type StoryCollection {
   synopsis: StoryCollection_synopsis_Document
   seriesPosts(where: PostWhereInput! = {}, orderBy: [PostOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PostWhereUniqueInput): [Post!]
   seriesPostsCount(where: PostWhereInput! = {}): Int
+  url: String
+  status: String
 }
 
 type StoryCollection_synopsis_Document {
@@ -434,6 +448,7 @@ type StoryCollection_synopsis_Document {
 input StoryCollectionWhereUniqueInput {
   id: ID
   title: String
+  url: String
 }
 
 input StoryCollectionWhereInput {
@@ -444,12 +459,16 @@ input StoryCollectionWhereInput {
   title: StringFilter
   socialMediaBrief: StringFilter
   seriesPosts: PostManyRelationFilter
+  url: StringFilter
+  status: StringNullableFilter
 }
 
 input StoryCollectionOrderByInput {
   id: OrderDirection
   title: OrderDirection
   socialMediaBrief: OrderDirection
+  url: OrderDirection
+  status: OrderDirection
 }
 
 input StoryCollectionUpdateInput {
@@ -457,6 +476,8 @@ input StoryCollectionUpdateInput {
   socialMediaBrief: String
   synopsis: JSON
   seriesPosts: PostRelateToManyForUpdateInput
+  url: String
+  status: String
 }
 
 input StoryCollectionUpdateArgs {
@@ -469,6 +490,8 @@ input StoryCollectionCreateInput {
   socialMediaBrief: String
   synopsis: JSON
   seriesPosts: PostRelateToManyForCreateInput
+  url: String
+  status: String
 }
 
 type Page {
@@ -478,9 +501,12 @@ type Page {
   pageType: String
   socialMediaBrief: String
   content: Page_content_Document
+  barcode: String
   postSections: String
   status: String
   showInNav: Boolean
+  url: String
+  storyCollection: StoryCollection
 }
 
 type Page_content_Document {
@@ -490,6 +516,7 @@ type Page_content_Document {
 input PageWhereUniqueInput {
   id: ID
   title: String
+  url: String
 }
 
 input PageWhereInput {
@@ -501,9 +528,12 @@ input PageWhereInput {
   pageOrder: IntNullableFilter
   pageType: StringNullableFilter
   socialMediaBrief: StringFilter
+  barcode: StringFilter
   postSections: StringFilter
   status: StringNullableFilter
   showInNav: BooleanFilter
+  url: StringFilter
+  storyCollection: StoryCollectionWhereInput
 }
 
 input PageOrderByInput {
@@ -512,9 +542,11 @@ input PageOrderByInput {
   pageOrder: OrderDirection
   pageType: OrderDirection
   socialMediaBrief: OrderDirection
+  barcode: OrderDirection
   postSections: OrderDirection
   status: OrderDirection
   showInNav: OrderDirection
+  url: OrderDirection
 }
 
 input PageUpdateInput {
@@ -523,9 +555,12 @@ input PageUpdateInput {
   pageType: String
   socialMediaBrief: String
   content: JSON
+  barcode: String
   postSections: String
   status: String
   showInNav: Boolean
+  url: String
+  storyCollection: StoryCollectionRelateToOneForUpdateInput
 }
 
 input PageUpdateArgs {
@@ -539,9 +574,12 @@ input PageCreateInput {
   pageType: String
   socialMediaBrief: String
   content: JSON
+  barcode: String
   postSections: String
   status: String
   showInNav: Boolean
+  url: String
+  storyCollection: StoryCollectionRelateToOneForCreateInput
 }
 
 type Image {

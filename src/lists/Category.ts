@@ -6,7 +6,7 @@ import isAdmin from "../utils/isAdmin";
 const Category = list({
   access: {
     operation: {
-      query: isAdmin,
+      query: allowAll,
       create: isAdmin,
       update: isAdmin,
       delete: isAdmin,

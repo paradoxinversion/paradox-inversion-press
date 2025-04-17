@@ -1,8 +1,8 @@
 {
   "name": "paradox-inversion-press",
   "version": "0.0.1",
-  "description": "Repository for Paradox Inversion",
-  "main": "index.js",
+  "description": "Repository for Paradox Inversion Press CMS",
+  "main": "keystone.ts",
   "author": "Jedai Saboteur",
   "license": "MIT",
   "dependencies": {

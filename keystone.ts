@@ -5,6 +5,9 @@ import { TypeInfo } from ".keystone/types";
 const baseUrl = "http://localhost:3000";
 export default config<TypeInfo>(
   withAuth({
+    server: {
+      cors: true,
+    },
     db: {
       provider: "sqlite",
       url: "file:./keystone.db",

@@ -13,7 +13,7 @@ import isAdmin from "../utils/isAdmin";
 const Image = list({
   access: {
     operation: {
-      query: isAdmin,
+      query: allowAll,
       create: isAdmin,
       update: isAdmin,
       delete: isAdmin,

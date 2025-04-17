@@ -13,7 +13,7 @@ import isAdmin from "../utils/isAdmin";
 const Tag = list({
   access: {
     operation: {
-      query: isAdmin,
+      query: allowAll,
       create: isAdmin,
       update: isAdmin,
       delete: isAdmin,
@@ -21,6 +21,7 @@ const Tag = list({
   },
   fields: {
     name: text({ validation: { isRequired: true }, isIndexed: "unique" }),
+    tag: text({ validation: { isRequired: true }, isIndexed: "unique" }),
     description: text({
       validation: { isRequired: true },
       isIndexed: "unique",
