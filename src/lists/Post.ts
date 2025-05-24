@@ -46,6 +46,12 @@ const Post = list({
   fields: {
     title: text(),
     category: relationship({ ref: "Category" }),
+    postType: select({
+      options: [
+        { label: "Standalone", value: "standalone" },
+        { label: "Series", value: "series" },
+      ]
+    }),
     series: relationship({ ref: "StoryCollection" }),
     seriesOrder: integer(),
     headerImage: relationship({ ref: "Image" }),
