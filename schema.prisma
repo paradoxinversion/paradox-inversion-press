@@ -26,6 +26,7 @@ model Post {
   title                            String            @default("")
   category                         Category?         @relation("Post_category", fields: [categoryId], references: [id])
   categoryId                       String?           @map("category")
+  postType                         String?
   series                           StoryCollection?  @relation("Post_series", fields: [seriesId], references: [id])
   seriesId                         String?           @map("series")
   seriesOrder                      Int?

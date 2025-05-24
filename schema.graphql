@@ -135,6 +135,7 @@ type Post {
   id: ID!
   title: String
   category: Category
+  postType: String
   series: StoryCollection
   seriesOrder: Int
   headerImage: Image
@@ -167,6 +168,7 @@ input PostWhereInput {
   id: IDFilter
   title: StringFilter
   category: CategoryWhereInput
+  postType: StringNullableFilter
   series: StoryCollectionWhereInput
   seriesOrder: IntNullableFilter
   headerImage: ImageWhereInput
@@ -177,6 +179,20 @@ input PostWhereInput {
   brief: StringFilter
   tags: TagManyRelationFilter
   url: StringFilter
+}
+
+input StringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  not: StringNullableFilter
 }
 
 input IntNullableFilter {
@@ -201,20 +217,6 @@ input DateTimeNullableFilter {
   not: DateTimeNullableFilter
 }
 
-input StringNullableFilter {
-  equals: String
-  in: [String!]
-  notIn: [String!]
-  lt: String
-  lte: String
-  gt: String
-  gte: String
-  contains: String
-  startsWith: String
-  endsWith: String
-  not: StringNullableFilter
-}
-
 input TagManyRelationFilter {
   every: TagWhereInput
   some: TagWhereInput
@@ -224,6 +226,7 @@ input TagManyRelationFilter {
 input PostOrderByInput {
   id: OrderDirection
   title: OrderDirection
+  postType: OrderDirection
   seriesOrder: OrderDirection
   publishedAt: OrderDirection
   status: OrderDirection
@@ -234,6 +237,7 @@ input PostOrderByInput {
 input PostUpdateInput {
   title: String
   category: CategoryRelateToOneForUpdateInput
+  postType: String
   series: StoryCollectionRelateToOneForUpdateInput
   seriesOrder: Int
   headerImage: ImageRelateToOneForUpdateInput
@@ -292,6 +296,7 @@ input PostUpdateArgs {
 input PostCreateInput {
   title: String
   category: CategoryRelateToOneForCreateInput
+  postType: String
   series: StoryCollectionRelateToOneForCreateInput
   seriesOrder: Int
   headerImage: ImageRelateToOneForCreateInput
