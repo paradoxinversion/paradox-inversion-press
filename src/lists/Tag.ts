@@ -26,7 +26,7 @@ const Tag = list({
       validation: { isRequired: true },
       isIndexed: "unique",
     }),
-    posts: relationship({ ref: "Post", many: true }),
+    // posts: relationship({ ref: "Post", many: true }),
   },
 });
 

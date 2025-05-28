@@ -20,7 +20,6 @@ const User = list({
     username: text({ validation: { isRequired: true } }),
     displayName: text({ validation: { isRequired: true } }),
     email: text({ validation: { isRequired: true }, isIndexed: "unique" }),
-    posts: relationship({ ref: "Post.author", many: true }),
     password: password({ validation: { isRequired: true } }),
     isAdmin: checkbox({ defaultValue: false }),
   },

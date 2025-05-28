@@ -45,29 +45,28 @@ const Post = list({
   },
   fields: {
     title: text(),
-    category: relationship({ ref: "Category" }),
     postType: select({
       options: [
         { label: "Standalone", value: "standalone" },
         { label: "Series", value: "series" },
-      ]
-    }),
-    series: relationship({ ref: "StoryCollection" }),
-    seriesOrder: integer(),
-    headerImage: relationship({ ref: "Image" }),
-    publishedAt: timestamp(),
-    author: relationship({
-      ref: "User.posts",
-    }),
-    page: relationship({ ref: "Page" }),
-    status: select({
-      options: [
-        { label: "Published", value: "published" },
-        { label: "Draft", value: "draft" },
       ],
-      defaultValue: "draft",
+      defaultValue: "standalone",
       ui: { displayMode: "segmented-control" },
     }),
+    
+    publishedAt: timestamp({
+      defaultValue: { kind: "now" },
+      validation: { isRequired: true },
+    }),
+    lastModified: timestamp({
+      defaultValue: { kind: "now" },
+      validation: { isRequired: false },
+    }),
+    author: relationship({
+      ref: "User",
+      many: false
+    }),
+    brief: text(),
     content: document({
       formatting: true,
       links: true,
@@ -80,8 +79,20 @@ const Post = list({
         [1, 2, 1],
       ],
     }),
-    brief: text(),
+    category: relationship({ ref: "Category" }),
+    headerImage: relationship({ ref: "Image" }),
+    status: select({
+      options: [
+        { label: "Published", value: "published" },
+        { label: "Draft", value: "draft" },
+      ],
+      defaultValue: "draft",
+      ui: { displayMode: "segmented-control" },
+    }),
+    page: relationship({ ref: "Page", many: true }),
     tags: relationship({ ref: "Tag", many: true }),
+    series: relationship({ ref: "StoryCollection" }),
+    seriesOrder: integer(),
     url: text({ isIndexed: "unique" }),
   },
 });
