@@ -2,15 +2,28 @@ import { config, list } from "@keystone-6/core";
 import lists from "./src/lists/lists";
 import { withAuth, session } from "./auth";
 import { TypeInfo } from ".keystone/types";
-const baseUrl = "http://localhost:3000";
+import dotenv from 'dotenv';
+import { DatabaseProvider } from "@keystone-6/core/types";
+
+dotenv.config();
+
+const baseUrl = process.env.BASE_URL ?? "http://localhost:3000";
+const provider = process.env.DB_PROVIDER as DatabaseProvider ?? "sqlite" as DatabaseProvider;
+console.log(`Using database provider: ${provider}`);
+const dbuser = process.env.DB_USER;
+const dbpassword = process.env.DB_PASSWORD;
+const url = dbuser && dbpassword
+  ? `mysql://${dbuser}:${dbpassword}@localhost:3306/keystone`
+  : "file:./keystone.db";
+console.log(`Using database URL: ${url}`);
 export default config<TypeInfo>(
   withAuth({
     server: {
       cors: true,
     },
     db: {
-      provider: "sqlite",
-      url: "file:./keystone.db",
+      provider,
+      url,
     },
     lists,
     session,
