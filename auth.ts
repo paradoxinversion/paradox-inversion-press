@@ -13,8 +13,8 @@ const { withAuth } = createAuth({
   },
 });
 
-let sessionSecret = "-- DEV COOKIE SECRET; CHANGE ME --";
-let sessionMaxAge = 60 * 60 * 24; // 24 hours
+const sessionSecret =  process.env.KEYSTONE_SESSION_SECRET ?? "-- DEV COOKIE SECRET; CHANGE ME --";
+const sessionMaxAge = 60 * 60 * 24; // 24 hours
 
 const session = statelessSessions({
   maxAge: sessionMaxAge,
