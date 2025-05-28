@@ -12,44 +12,42 @@ generator client {
 }
 
 model User {
-  id          String  @id @default(cuid())
-  username    String  @default("")
-  displayName String  @default("")
-  email       String  @unique @default("")
-  posts       Post[]  @relation("Post_author")
-  password    String
-  isAdmin     Boolean @default(false)
+  id               String  @id @default(cuid())
+  username         String  @default("")
+  displayName      String  @default("")
+  email            String  @unique @default("")
+  password         String
+  isAdmin          Boolean @default(false)
+  from_Post_author Post[]  @relation("Post_author")
 }
 
 model Post {
   id                               String            @id @default(cuid())
   title                            String            @default("")
+  postType                         String?           @default("standalone")
+  publishedAt                      DateTime          @default(now())
+  lastModified                     DateTime?         @default(now())
+  author                           User?             @relation("Post_author", fields: [authorId], references: [id])
+  authorId                         String?           @map("author")
+  brief                            String            @default("")
+  content                          String            @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   category                         Category?         @relation("Post_category", fields: [categoryId], references: [id])
   categoryId                       String?           @map("category")
-  postType                         String?
+  headerImage                      Image?            @relation("Post_headerImage", fields: [headerImageId], references: [id])
+  headerImageId                    String?           @map("headerImage")
+  status                           String?           @default("draft")
+  page                             Page[]            @relation("Post_page")
+  tags                             Tag[]             @relation("Post_tags")
   series                           StoryCollection?  @relation("Post_series", fields: [seriesId], references: [id])
   seriesId                         String?           @map("series")
   seriesOrder                      Int?
-  headerImage                      Image?            @relation("Post_headerImage", fields: [headerImageId], references: [id])
-  headerImageId                    String?           @map("headerImage")
-  publishedAt                      DateTime?
-  author                           User?             @relation("Post_author", fields: [authorId], references: [id])
-  authorId                         String?           @map("author")
-  page                             Page?             @relation("Post_page", fields: [pageId], references: [id])
-  pageId                           String?           @map("page")
-  status                           String?           @default("draft")
-  content                          String            @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
-  brief                            String            @default("")
-  tags                             Tag[]             @relation("Post_tags")
   url                              String            @unique @default("")
-  from_Tag_posts                   Tag[]             @relation("Tag_posts")
   from_StoryCollection_seriesPosts StoryCollection[] @relation("StoryCollection_seriesPosts")
 
-  @@index([categoryId])
-  @@index([seriesId])
-  @@index([headerImageId])
   @@index([authorId])
-  @@index([pageId])
+  @@index([categoryId])
+  @@index([headerImageId])
+  @@index([seriesId])
 }
 
 model Category {
@@ -64,7 +62,6 @@ model Tag {
   name           String @unique @default("")
   tag            String @unique @default("")
   description    String @unique @default("")
-  posts          Post[] @relation("Tag_posts")
   from_Post_tags Post[] @relation("Post_tags")
 }
 
