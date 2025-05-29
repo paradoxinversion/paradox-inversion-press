@@ -13,7 +13,7 @@ const dbpassword = process.env.DB_PASSWORD;
 const provider = dbuser && dbpassword ? "mysql" as DatabaseProvider : "sqlite" as DatabaseProvider;
 console.log(`Using database provider: ${provider}`);
 const url = dbuser && dbpassword
-  ? `mysql://${dbuser}:${dbpassword}@localhost:3306/keystone`
+  ? `mysql://${dbuser}:${dbpassword}@${process.env.DB_HOST}:3306/keystone`
   : "file:./keystone.db";
 console.log(`Using database URL: ${url}`);
 export default config<TypeInfo>(
