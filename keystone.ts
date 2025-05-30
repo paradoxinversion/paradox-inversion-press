@@ -29,6 +29,7 @@ export default config<TypeInfo>(
     session,
     ui: {
       isAccessAllowed: (context) => !!context.session?.data,
+      basePath: process.env.NODE_ENV === "production" ? "/admin" : undefined,
     },
     storage: {
       local_images: {
