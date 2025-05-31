@@ -22,6 +22,9 @@ export default config<TypeInfo>(
   withAuth({
     server: {
       cors: true,
+       extendExpressApp: (app, createContext) => {
+        app.set('trust proxy', 1);
+      },
     },
     db: {
       provider,
@@ -44,5 +47,6 @@ export default config<TypeInfo>(
         storagePath: "public/images",
       },
     },
+    
   })
 );
