@@ -22,8 +22,11 @@ export default config<TypeInfo>(
   withAuth({
     server: {
       cors: { origin: ['http://localhost:3001'], credentials: true },
-       extendExpressApp: (app, createContext) => {
+       extendExpressApp: (app) => {
         app.set('trust proxy', 1);
+        app.get('/api/status', async (req, res) => {
+          res.json("Keystone is running");
+        });
       },
     },
     db: {
