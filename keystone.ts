@@ -21,7 +21,7 @@ console.log(`Using UI base path: ${!!uiBasePath ? uiBasePath : "default (/)"}`);
 export default config<TypeInfo>(
   withAuth({
     server: {
-      cors: true,
+      cors: { origin: ['http://localhost:3001'], credentials: true },
        extendExpressApp: (app, createContext) => {
         app.set('trust proxy', 1);
       },
